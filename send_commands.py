@@ -2,22 +2,26 @@ import sys
 import telnetlib
 import ipaddress
 import re
-
+'''
+Есть необходимость автоматизировать процесс прописывания определенного влана в кольце
+На сети используются коммутаторы Quidway s2300
+IP адреса для управления коммутаторами в маске /27
+'''
 ip = input('Введите ip адрес и маску: ')
 vlan_id = input('Введите номер влана: ')
 vlan_descr = input('Введите описание влана: ')
 
 user = "admin"
-password = "password"
+password = "***"
 
-#commands = ['sys','vlan ','descr ']
 save = ['q','q','save','y','screen-length 0 temporary']
 
 count = 0
 count_ud = 0
-#commands[1] = 'vlan ' + vlan_id
-#commands[2] = 'descr ' + vlan_descr
 
+'''
+Необходимо рассчитать пул IP адресов в список
+'''
 b = str(ipaddress.ip_interface(ip).network)
 a = b.index('/')
 ip_network = b[0:a - len(b)]
@@ -29,6 +33,10 @@ ip_pool = []
 for i in range(start_ip, start_ip+29):
     ip_pool.append(a[0:pos_point] + str(i))
 
+'''
+Далее обращаемся к каждому адресу из списка, если есть ответ, то выясняем порты, на которых иммется сосед (другой коммутатор)
+И на этих портах прописываем влан тегом
+'''
 for line in ip_pool:
     HOST = line
     try:
@@ -81,6 +89,9 @@ for line in ip_pool:
         connect.close()
         commands = []
     except:
+'''
+Если нет ответа более 10 адресов, то выходим из цикла
+'''
         if count < 10:
             print(line, "Не в сети")
             count = count + 1
