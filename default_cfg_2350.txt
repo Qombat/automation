@@ -1,0 +1,457 @@
+!Software Version V200R009C00SPC500
+#
+sysname xxxx
+#
+FTP server enable
+FTP acl 2000
+#
+info-center source default channel 2 log level debugging trap state off
+info-center source TELNET channel 4
+info-center loghost 192.168.203.14
+#
+vlan batch xxxx
+#
+stp bpdu-filter default
+stp enable
+#
+pppoe intermediate-agent information enable
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name portal_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name multi_authen_profile
+#
+igmp-snooping enable
+#
+undo cluster enable
+undo ntdp enable
+undo ndp enable
+#
+telnet server enable
+#
+lldp enable
+#
+undo http server enable
+http server port 1025
+#
+clock timezone ULN add 04:00:00
+#
+drop illegal-mac enable
+#
+dhcp enable
+#
+dhcp snooping enable
+#
+radius-server template default
+#
+acl number 2000  
+ description ADM
+ rule 10 permit source 192.168.192.0 0.0.15.255 
+ rule 20 permit source 192.168.62.0 0.0.1.255 
+ rule 999 deny 
+acl number 2005  
+ description Multicast Policies
+ step 10
+ rule 10 permit source 239.0.12.0 0.0.3.255 
+ rule 20 permit source 239.0.16.0 0.0.3.255 
+ rule 30 permit source 239.77.0.0 0.0.0.255 
+ rule 40 permit source 239.192.30.27 0 
+ rule 50 permit source 239.195.0.0 0.0.255.255 
+ rule 60 permit source 235.73.101.0 0.0.0.255 
+ rule 70 permit source 233.11.62.30 0 
+ rule 999 deny 
+#
+acl number 3500  
+ rule 10 deny tcp destination-port range 135 139 
+ rule 20 deny tcp destination-port eq 445 
+ rule 30 deny udp destination-port range netbios-ns netbios-ssn 
+#
+acl number 4001  
+ rule 10 permit l2-protocol 0x8863
+ rule 20 permit l2-protocol 0x8864
+ rule 30 permit l2-protocol ip
+ rule 40 permit l2-protocol arp
+ rule 50 deny
+#
+vlan 1
+#
+aaa
+ authentication-scheme default
+ authentication-scheme radius
+  authentication-mode radius
+ authentication-scheme telnet
+  authentication-mode radius none
+ authorization-scheme default
+ accounting-scheme default
+ domain default
+  authentication-scheme default
+  radius-server default
+ domain default_admin
+  authentication-scheme default
+ undo local-user admin
+ local-user adm password irreversible-cipher 
+ local-user adm privilege level 3
+ local-user adm ftp-directory flash:
+ local-user adm service-type telnet
+ local-user ftp password irreversible-cipher 
+ local-user ftp privilege level 15
+ local-user ftp ftp-directory flash:
+ local-user ftp service-type ftp
+ local-user noc password irreversible-cipher 
+ local-user noc privilege level 15
+ local-user noc ftp-directory flash:
+ local-user noc service-type telnet
+ local-user oss password irreversible-cipher 
+ local-user oss privilege level 15
+ local-user oss ftp-directory flash:
+ local-user oss service-type telnet ftp
+#
+ntp-service unicast-server 192.168.203.14
+#
+interface Vlanifxxxx
+ description Mgmt
+ ip address xxxx 255.255.255.224
+#
+interface Ethernet0/0/1
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/2
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/3
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/4
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/5
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/6
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/7
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/8
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/9
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/10
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/11
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/12
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/13
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/14
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/15
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/16
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/17
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/18
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/19
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/20
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/21
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/22
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/23
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface Ethernet0/0/24
+ auto speed 100
+ auto duplex full
+ undo port hybrid vlan 1
+ mac-limit maximum 16
+ loopback-detect enable
+ stp edged-port enable
+ port-isolate enable group 1
+ qos schedule-profile pq
+#
+interface GigabitEthernet0/0/1
+interface NULL0
+#
+qos schedule-profile pq
+ qos pq
+#
+cpu-defend policy mcast
+#
+ip route-static 0.0.0.0 0.0.0.0 xxxx
+#
+traffic-filter vlan 1 inbound acl 4001 rule 10
+traffic-filter vlan 1 inbound acl 4001 rule 20
+traffic-filter vlan 1 inbound acl 4001 rule 30
+traffic-filter vlan 1 inbound acl 4001 rule 40
+traffic-filter vlan 1 inbound acl 4001 rule 50
+traffic-filter vlan 1 inbound acl 3500 rule 10
+traffic-filter vlan 1 inbound acl 3500 rule 20
+traffic-filter vlan 1 inbound acl 3500 rule 30
+#
+snmp-agent
+snmp-agent local-engineid 000007DB7F00000100007412
+snmp-agent community read cipher %^%#K!xbSPCfEGGp10902;38Klh(/ROp$&#t)M,~|K!FQxq<<n3Y$!~svA*P9'm;t|"S@+>v,,ValI)y`dx:%^%# acl 2000
+snmp-agent sys-info location xxxx
+snmp-agent sys-info version v2c
+undo snmp-agent sys-info version v3
+snmp-agent target-host trap address udp-domain 192.168.203.7 params securityname cipher %^%#wpA9.}Q)JMMJ#FC2V[ZXj,~X'J:Ij'EjP-Yg"KM1%^%# v2c
+snmp-agent target-host trap address udp-domain 192.168.203.8 params securityname cipher %^%#S~2A~Xak&(B(zi$A^/ZS``7lTR_/!N<y/,;\Qb&N%^%# v2c
+snmp-agent target-host trap address udp-domain 192.168.203.14 params securityname cipher %^%#mK!&31jC8'hK<!#~Zj',x*&OYEH`A+9dZ8665jq&%^%# v2c
+snmp-agent trap enable
+#
+cpu-defend-policy mcast global
+#
+user-interface con 0
+ idle-timeout 0 0
+user-interface vty 0 4
+ acl 2000 inbound
+ authentication-mode aaa
+ history-command max-size 100
+ screen-length 50
+ protocol inbound all
+user-interface vty 16 20
+#
+port-group 1
+ group-member Ethernet0/0/1
+ group-member Ethernet0/0/2
+ group-member Ethernet0/0/3
+ group-member Ethernet0/0/4
+ group-member Ethernet0/0/5
+ group-member Ethernet0/0/6
+ group-member Ethernet0/0/7
+ group-member Ethernet0/0/8
+ group-member Ethernet0/0/9
+ group-member Ethernet0/0/10
+ group-member Ethernet0/0/11
+ group-member Ethernet0/0/12
+ group-member Ethernet0/0/13
+ group-member Ethernet0/0/14
+ group-member Ethernet0/0/15
+ group-member Ethernet0/0/16
+ group-member Ethernet0/0/17
+ group-member Ethernet0/0/18
+ group-member Ethernet0/0/19
+ group-member Ethernet0/0/20
+ group-member Ethernet0/0/21
+ group-member Ethernet0/0/22
+ group-member Ethernet0/0/23
+ group-member Ethernet0/0/24
+#
+port-group hybrid
+#
+port-group subs
+ group-member Ethernet0/0/1
+ group-member Ethernet0/0/2
+ group-member Ethernet0/0/3
+ group-member Ethernet0/0/4
+ group-member Ethernet0/0/5
+ group-member Ethernet0/0/6
+ group-member Ethernet0/0/7
+ group-member Ethernet0/0/8
+ group-member Ethernet0/0/9
+ group-member Ethernet0/0/10
+ group-member Ethernet0/0/11
+ group-member Ethernet0/0/12
+ group-member Ethernet0/0/13
+ group-member Ethernet0/0/14
+ group-member Ethernet0/0/15
+ group-member Ethernet0/0/16
+ group-member Ethernet0/0/17
+ group-member Ethernet0/0/18
+ group-member Ethernet0/0/19
+ group-member Ethernet0/0/20
+ group-member Ethernet0/0/21
+ group-member Ethernet0/0/22
+ group-member Ethernet0/0/23
+ group-member Ethernet0/0/24
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+return 

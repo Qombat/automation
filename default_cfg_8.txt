@@ -1,0 +1,232 @@
+#
+!Software Version V100R005C01SPC100
+ sysname xxxx
+#
+ FTP server enable
+ FTP acl 2000
+#
+ info-center source default channel 2 log level debugging trap state off
+ info-center loghost 192.168.203.14
+#
+ vlan batch xxxx
+#
+ stp bpdu-filter default
+ stp enable
+#
+ pppoe intermediate-agent information enable
+#
+ igmp-snooping enable
+#
+ undo cluster enable 
+ undo ntdp enable 
+ undo ndp enable
+#
+ bpdu enable
+#
+ lldp enable 
+#
+ dhcp enable
+ dhcp snooping enable
+#
+ undo http server enable
+#
+ drop illegal-mac alarm
+ drop illegal-mac enable
+#
+ qos pq
+#
+acl number 2000  
+ description ADM
+ rule 10 permit source 192.168.192.0 0.0.15.255 
+ rule 20 permit source 192.168.64.0 0.0.1.255 
+ rule 999 deny 
+#
+acl number 2005  
+ description Multicast Policies
+ step 10
+ rule 10 permit source 239.0.12.0 0.0.3.255 
+ rule 20 permit source 239.0.16.0 0.0.3.255 
+ rule 30 permit source 239.77.0.0 0.0.0.255 
+ rule 40 permit source 239.192.30.27 0 
+ rule 50 permit source 239.195.0.0 0.0.255.255
+ rule 60 permit source 235.73.101.0 0.0.0.255 
+ rule 70 permit source 233.11.62.30 0  
+ rule 999 deny 
+#
+acl number 3500  
+ rule 10 deny tcp destination-port range 135 139 
+ rule 20 deny tcp destination-port eq 445 
+ rule 30 deny udp destination-port range netbios-ns netbios-ssn 
+#
+acl number 4001  
+ rule 10 permit l2-protocol 0x8863
+ rule 20 permit l2-protocol 0x8864
+ rule 30 permit l2-protocol ip
+ rule 40 permit l2-protocol arp
+ rule 50 deny
+#
+vlan 1
+#
+aaa 
+ authentication-scheme default
+ authorization-scheme default
+ accounting-scheme default
+ domain default 
+ domain default_admin 
+ local-user adm password cipher
+ local-user adm privilege level 3
+ local-user adm ftp-directory flash:
+ local-user adm service-type telnet
+ local-user ftp password cipher
+ local-user ftp privilege level 2
+ local-user ftp ftp-directory flash:
+ local-user ftp service-type ftp
+ local-user noc password cipher
+ local-user noc privilege level 15
+ local-user noc ftp-directory flash:
+ local-user noc service-type telnet
+ local-user oss password cipher
+ local-user oss privilege level 15
+ local-user oss ftp-directory flash:
+ local-user oss service-type telnet ftp
+ local-user support password cipher
+ local-user support privilege level 1
+ local-user support ftp-directory flash:
+ local-user support service-type telnet
+ undo local-user admin
+#
+ ntp-service unicast-server 192.168.203.14
+#
+interface Vlanifxxxx
+ description Mgmt
+ ip address xxxx 255.255.255.224 
+#
+interface Ethernet0/0/1
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/2
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/3
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/4
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/5
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/6
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/7
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface Ethernet0/0/8
+ undo port hybrid vlan 1
+ loopback-detect enable
+ stp edged-port enable
+ undo ntdp enable 
+ undo ndp enable
+ port-isolate enable group 1
+ auto speed 100
+ auto duplex full
+#
+interface GigabitEthernet0/0/1
+#
+interface NULL0
+#
+ ip route-static 0.0.0.0 0.0.0.0 xxxx
+#
+ traffic-filter vlan 1 inbound acl 4001 rule 10
+ traffic-filter vlan 1 inbound acl 4001 rule 20
+ traffic-filter vlan 1 inbound acl 4001 rule 30
+ traffic-filter vlan 1 inbound acl 4001 rule 40
+ traffic-filter vlan 1 inbound acl 4001 rule 50
+ traffic-filter vlan 1 inbound acl 3500 rule 10
+ traffic-filter vlan 1 inbound acl 3500 rule 20
+ traffic-filter vlan 1 inbound acl 3500 rule 30
+#
+ snmp-agent
+ snmp-agent local-engineid 000007DB7F00000100007412
+ snmp-agent community read  tlk-read acl 2000 
+ snmp-agent sys-info location xxxx
+ snmp-agent sys-info version v2c
+ undo snmp-agent sys-info version v3
+ snmp-agent target-host trap  address udp-domain 192.168.203.7 params securityname tlk-trap v2c 
+ snmp-agent target-host trap  address udp-domain 192.168.203.8 params securityname tlk-trap v2c 
+ snmp-agent trap enable basetrap
+ snmp-agent trap enable feature-name standard trap-name coldstart 
+ snmp-agent trap enable feature-name standard trap-name warmstart 
+ snmp-agent trap enable feature-name standard trap-name authentication 
+ snmp-agent trap enable feature-name standard trap-name linkup 
+ snmp-agent trap enable feature-name standard trap-name linkdown 
+#
+user-interface con 0
+ idle-timeout 0 0
+user-interface vty 0 4
+ acl 2000 inbound
+ authentication-mode aaa
+ history-command max-size 100
+ screen-length 50
+#
+port-group subs
+ group-member Ethernet0/0/1
+ group-member Ethernet0/0/2
+ group-member Ethernet0/0/3
+ group-member Ethernet0/0/4
+ group-member Ethernet0/0/5
+ group-member Ethernet0/0/6
+ group-member Ethernet0/0/7
+ group-member Ethernet0/0/8
+#
+return
